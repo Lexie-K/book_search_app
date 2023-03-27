@@ -1,0 +1,55 @@
+.styledBookcontainer {
+  display: flex;
+}
+.styledDescriptionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.styledPositionModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtnModal {
+  align-self: flex-end;
+  cursor: pointer;
+  padding-top: 2.5rem;
+  padding-right: 2.5rem;
+  float: right;
+}
+
+.styledCoverImg {
+  padding: 1rem;
+}
+
+.styledCategory {
+  padding: 1rem;
+  color: grey;
+}
+
+.styledAuthors {
+  padding: 1rem;
+  text-decoration: underline;
+  color: grey;
+}
+
+.styledBookTitle {
+  padding: 1rem;
+}
+
+.styledBookDescription {
+  border-radius: 0.5rem;
+  border: 0.1rem solid rgb(0, 0, 0);
+  padding: 1.5rem;
+  margin: 1rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .styledBookcontainer {
+    display: flex;
+    flex-direction: column;
+  }
+}

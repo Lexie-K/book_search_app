@@ -1,0 +1,75 @@
+.counter {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 0.3rem solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  margin: 1rem;
+  text-align: center;
+  align-self: center;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.loading {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 0.3rem solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  margin: 1rem;
+  text-align: center;
+  align-self: center;
+
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btnLoad {
+  cursor: pointer;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 0.3rem solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  margin-top: 1.5rem;
+
+  text-align: center;
+  align-self: center;
+
+  padding: 0.3rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btnLoad:hover {
+  background-color: grey;
+}
+
+.styledBookList {
+  margin: 2rem;
+  padding: 1rem;
+}
+
+.styledContent {
+  text-align: start;
+  text-overflow: ellipsis;
+}
+
+.btnDetails {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 0.2rem solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  margin: 0.5rem;
+  text-align: center;
+  align-self: center;
+  padding: 0.2rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
