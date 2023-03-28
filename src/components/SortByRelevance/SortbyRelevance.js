@@ -11,21 +11,11 @@ import Select from '@mui/material/Select';
 const SortbyRelevance = () => {
   const sorting = useSelector(state => state.filter.sortBy);
   const dispatch = useDispatch();
-  const categoryValue = useSelector(state => state.filter.categoryValue);
-  const inputValue = useSelector(state => state.filter.inputValue);
   const sortValue = useSelector(state => state.filter.sortValue);
-  const startPagination = useSelector(state => state.filter.startPagination);
 
   const changeSorthandler = e => {
     dispatch(setSort(e.target.value));
-    dispatch(
-      fetchFilteredBooks({
-        filter: categoryValue,
-        search: inputValue,
-        sort: sortValue,
-        startPagination,
-      })
-    );
+    dispatch(fetchFilteredBooks());
   };
 
   return (

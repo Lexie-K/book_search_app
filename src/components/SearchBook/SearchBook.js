@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchFilteredBooks } from '../../store/filterBooksSlice';
+import {
+  fetchFilteredBooks,
+  setResetInput,
+} from '../../store/filterBooksSlice';
 import { useTransition } from 'react';
 import { setInput } from '../../store/filterBooksSlice';
 import { useSelector } from 'react-redux';
@@ -8,30 +11,23 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import './styledSearchContainer.css'
+import './styledSearchContainer.css';
 const Searchbook = () => {
   const [isPending, startTransition] = useTransition();
   const dispatch = useDispatch();
   const inputValue = useSelector(state => state.filter.inputValue);
-  const categoryValue = useSelector(state => state.filter.categoryValue);
-  const sortValue = useSelector(state => state.filter.sortValue);
-  const startPagination = useSelector(state => state.filter.startPagination);
+
   const changeHandler = e => {
+    e.preventDefault();
     dispatch(setInput(e.target.value));
   };
 
   const handleKeyDown = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
+
       startTransition(() => {
-        dispatch(
-          fetchFilteredBooks({
-            search: inputValue,
-            filter: categoryValue,
-            sort: sortValue,
-            startPagination,
-          })
-        );
+        dispatch(fetchFilteredBooks(), setResetInput(e.target.value));
       });
     }
   };
@@ -39,17 +35,11 @@ const Searchbook = () => {
   const clickHandler = e => {
     e.preventDefault();
     startTransition(() => {
-      dispatch(
-        fetchFilteredBooks({
-          search: inputValue,
-          filter: categoryValue,
-          sort: sortValue,
-          startPagination,
-        })
-      );
+      dispatch(fetchFilteredBooks());
     });
+    dispatch(setResetInput());
   };
-  
+
   return (
     <div className="styledSearchContainer">
       <Paper
@@ -58,9 +48,7 @@ const Searchbook = () => {
           p: '2px 4px',
           display: 'flex',
           alignItems: 'center',
-          maxWidth: "320px",
-         
-         
+          maxWidth: '320px',
         }}
       >
         <InputBase
@@ -74,7 +62,7 @@ const Searchbook = () => {
         />
         <IconButton
           type="button"
-          sx={{ p: '10px', textAlign:'end' }}
+          sx={{ p: '10px', textAlign: 'end' }}
           aria-label="search"
           onClick={clickHandler}
         >

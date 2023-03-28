@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   Card,
@@ -15,9 +15,10 @@ import sorry from '../../images/sorry.png';
 import { useDispatch } from 'react-redux';
 import { fetchBookDetails } from '../../store/detailsSlice';
 import { fetchFilteredBooks } from '../../store/filterBooksSlice';
-import { setLoadmore } from '../../store/filterBooksSlice';
 import { setResetBooks } from '../../store/filterBooksSlice';
 import './StyledMainLayout.css';
+import { setLoadmore } from '../../store/filterBooksSlice';
+import HideButton from '../HideButton/HideButton';
 
 function ShowBooks() {
   const theme = createTheme({
@@ -28,15 +29,12 @@ function ShowBooks() {
   });
 
   const filterResult = useSelector(state => state.filter.showFilteredCategory);
-
   const books = useSelector(state => state.filter.totalItems);
   const status = useSelector(state => state.filter.status);
   const startPagination = useSelector(state => state.filter.startPagination);
+  const showBtn = useSelector(state => state.filter.showBtn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const inputValue = useSelector(state => state.filter.inputValue);
-  const categoryValue = useSelector(state => state.filter.categoryValue);
-  const sortValue = useSelector(state => state.filter.sortValue);
 
   const handleOpen = async id => {
     await dispatch(fetchBookDetails({ id }));
@@ -46,27 +44,18 @@ function ShowBooks() {
     dispatch(setResetBooks());
   };
 
-  useEffect(() => {
-    dispatch(
-      fetchFilteredBooks({
-        startPagination,
-        filter: categoryValue,
-        search: inputValue,
-        sort: sortValue,
-      })
-    );
-  }, [startPagination, categoryValue, sortValue]);
-
   const handleLoad = () => {
     dispatch(setLoadmore(startPagination));
+    dispatch(fetchFilteredBooks());
   };
 
   return (
     <div>
-      <div className="wrapper">
-        <div className="counter">Found {books} results</div>
-      </div>
-
+      {books ? (
+        <div className="wrapper">
+          <div className="counter">Found {books} results</div>
+        </div>
+      ) : undefined}
       {status === 'loading' ? (
         <div className="wrapper">
           <div className="loading">LOADING...</div>
@@ -137,18 +126,11 @@ function ShowBooks() {
               ))}
             </Grid>
           </ThemeProvider>
-          {Object.keys(filterResult).length === 30 ? (
-            <div className="wrapper">
-              <button className="btnLoad" onClick={handleLoad}>
-                Load More
-              </button>
-            </div>
-          ) : (
-            <div className="wrapper">
-              <button className="btnDetails" onClick={() => handleRedirect()}>
-                Back to Search
-              </button>
-            </div>
+          {showBtn && (
+            <HideButton
+              handleLoad={handleLoad}
+              handleRedirect={handleRedirect}
+            />
           )}
         </>
       )}

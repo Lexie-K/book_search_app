@@ -25,11 +25,20 @@ const initialState = {
   sortValue: 'relevance',
   totalItems: 0,
   startPagination: 0,
+  showBooks: [],
+  showBtn: false,
 };
 
 export const fetchFilteredBooks = createAsyncThunk(
   'filter/fetchFilteredBooks',
-  async ({ search, filter, sort, startPagination }, thunkAPI) => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState().filter;
+    const startPagination = state.startPagination;
+    let filter = state.categoryValue;
+
+    const search = state.inputValue;
+    const sort = state.sortValue;
+
     try {
       const apiKey = 'AIzaSyAQBwSmYFAHONvjiEu1FM4apzhkEMccURo';
 
@@ -88,6 +97,13 @@ const filterBooksSlice = createSlice({
       state.sortValue = 'relevance';
       state.totalItems = 0;
       state.startPagination = 0;
+      state.showBooks = [];
+      state.showBtn = false;
+    },
+    setResetInput: state => {
+      state.showBooks = [];
+      state.startPagination = 0;
+      state.startPagination = 0;
     },
   },
 
@@ -98,10 +114,12 @@ const filterBooksSlice = createSlice({
       })
       .addCase(fetchFilteredBooks.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.showFilteredCategory = action.payload.items;
-        state.totalItems = action.payload.totalItems;
-      })
 
+        state.totalItems = action.payload.totalItems;
+        state.showFilteredCategory = action.payload.items;
+        state.showBooks = [...state.showBooks, ...action.payload.items];
+        state.showBtn = true;
+      })
       .addCase(fetchFilteredBooks.rejected, (state, action) => {
         state.status = 'failed';
         state.showFilteredCategory = [];
@@ -111,8 +129,14 @@ const filterBooksSlice = createSlice({
   },
 });
 
-export const { setInput, setCategory, setSort, setLoadmore, setResetBooks } =
-  filterBooksSlice.actions;
+export const {
+  setInput,
+  setCategory,
+  setSort,
+  setLoadmore,
+  setResetBooks,
+  setResetInput,
+} = filterBooksSlice.actions;
 // Export the reducer, either as a default or named export
 
 export default filterBooksSlice.reducer;
