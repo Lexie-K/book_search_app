@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-import { setCategory } from '../../store/filterBooksSlice';
+import { setCategory, setResetInput } from '../../store/filterBooksSlice';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +15,7 @@ const FilterbyCategory = () => {
 
   const changeFilterhandler = e => {
     dispatch(setCategory(e.target.value));
+    dispatch(setResetInput());
   };
 
   return (
