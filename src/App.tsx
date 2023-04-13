@@ -1,9 +1,8 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from './components/Main';
 import { BrowserRouter } from 'react-router-dom';
-import BookDetails from './components/BookDetails/BookDetails';
-import PageNotFound from './components/PageNotFound/PageNotFound';
+import BookDetails from 'components/BookDetails/BookDetails';
+import PageNotFound from 'components/PageNotFound/PageNotFound';
 
 function App() {
   return (

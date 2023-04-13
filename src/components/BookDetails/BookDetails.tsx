@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'hook';
 import { useNavigate } from 'react-router-dom';
-import { setReset } from '../../store/detailsSlice';
-import { useDispatch } from 'react-redux';
+import { setReset } from 'store/detailsSlice'; 
+
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -11,7 +11,7 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material';
-import sorry from '../../images/sorry.png';
+
 import './StyledBooksDetails.css';
 
 const BookDetails = () => {
@@ -21,10 +21,10 @@ const BookDetails = () => {
       fontSize: 16,
     },
   });
-
-  const { currentbook } = useSelector(({ details }) => details);
+  const sorry =  require("../../images/sorry.png");
+  const { currentbook } = useAppSelector(({ details }) => details);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     dispatch(setReset());
@@ -47,12 +47,12 @@ const BookDetails = () => {
             </div>
 
             <div className="styledBookcontainer">
-              {currentbook.volumeInfo.imageLinks ? (
+              {currentbook?.volumeInfo.imageLinks ? (
                 <CardMedia
                   sx={{ maxWidth: '320px' }}
                   component="img"
-                  src={currentbook.volumeInfo.imageLinks.thumbnail}
-                  alt={currentbook.volumeInfo.title}
+                  src={currentbook?.volumeInfo.imageLinks.thumbnail}
+                  alt={currentbook?.volumeInfo.title}
                   className="styledCoverImg"
                 />
               ) : (
@@ -65,37 +65,37 @@ const BookDetails = () => {
                 />
               )}
               <div className="styledDescriptionContainer">
-                {currentbook.volumeInfo.categories ? (
+                {currentbook?.volumeInfo.categories ? (
                   <Typography
                     id="current-categories"
                     className="styledCategory"
                   >
-                    {currentbook.volumeInfo.categories[0]}
+                    {currentbook?.volumeInfo.categories[0]}
                   </Typography>
-                ) : undefined}
-                {!currentbook.volumeInfo.authors
-                  ? undefined
-                  : currentbook.volumeInfo.authors.map(author => (
-                      <Typography id="current-athour" className="styledAuthors">
+                ) : null}
+                {!currentbook?.volumeInfo.authors
+                  ? null
+                  : currentbook?.volumeInfo.authors.map(author => (
+                      <Typography id="current-author" className="styledAuthors" key="author.author">
                         {author}
                       </Typography>
                     ))}
                 <Typography id="book-title" className="styledBookTitle">
-                  {currentbook.volumeInfo.title}
+                  {currentbook?.volumeInfo.title}
                 </Typography>
-                {currentbook.volumeInfo.subtitle ? (
+                {currentbook?.volumeInfo.subtitle ? (
                   <Typography id="book-subtitle" className="styledBookTitle">
-                    {currentbook.volumeInfo.subtitle}
+                    {currentbook?.volumeInfo.subtitle}
                   </Typography>
-                ) : undefined}
-                {currentbook.volumeInfo.description ? (
+                ) : null}
+                {currentbook?.volumeInfo.description ? (
                   <div
                     className="styledBookDescription"
                     dangerouslySetInnerHTML={{
                       __html: currentbook.volumeInfo.description,
                     }}
                   ></div>
-                ) : undefined}
+                ) : null}
               </div>
             </div>
           </Box>

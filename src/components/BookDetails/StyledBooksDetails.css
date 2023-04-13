@@ -1,5 +1,6 @@
 .styledBookcontainer {
   display: flex;
+  
 }
 .styledDescriptionContainer {
   display: flex;
@@ -22,6 +23,7 @@
 
 .styledCoverImg {
   padding: 1rem;
+  flex-shrink: 0;
 }
 
 .styledCategory {
@@ -47,9 +49,10 @@
   font-size: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .styledBookcontainer {
     display: flex;
     flex-direction: column;
+    
   }
 }

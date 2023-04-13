@@ -1,12 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  fetchFilteredBooks,
-  setResetInput,
-} from '../../store/filterBooksSlice';
+import { useAppDispatch, useAppSelector } from 'hook';
+import { fetchFilteredBooks, setResetPagination, setInput } from 'store/filterBooksSlice';
 import { useTransition } from 'react';
-import { setInput } from '../../store/filterBooksSlice';
-import { useSelector } from 'react-redux';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -14,30 +9,36 @@ import SearchIcon from '@mui/icons-material/Search';
 import './styledSearchContainer.css';
 const Searchbook = () => {
   const [isPending, startTransition] = useTransition();
-  const dispatch = useDispatch();
-  const inputValue = useSelector(state => state.filter.inputValue);
+  const dispatch = useAppDispatch();
+  const inputValue = useAppSelector(state => state.filter.inputValue);
 
-  const changeHandler = e => {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     dispatch(setInput(e.target.value));
+    
   };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     if (e.key === 'Enter') {
       e.preventDefault();
 
       startTransition(() => {
-        dispatch(fetchFilteredBooks(), setResetInput(e.target.value));
+        dispatch(setResetPagination());
+        dispatch(fetchFilteredBooks()); 
       });
+      
     }
   };
 
-  const clickHandler = e => {
+  const clickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     startTransition(() => {
+      dispatch(setResetPagination());
       dispatch(fetchFilteredBooks());
     });
-    dispatch(setResetInput());
+    
   };
 
   return (

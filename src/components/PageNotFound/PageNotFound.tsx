@@ -1,9 +1,9 @@
-import React from 'react';
-import error from './error.png';
 import './styledNotFound.css';
 import { Link } from 'react-router-dom';
 
 function PageNotFound() {
+  const error =  require("./error.png");
+
   return (
     <div className="styledNotFound">
       <h1>Oops! You might be lost</h1>

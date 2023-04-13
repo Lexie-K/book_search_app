@@ -1,5 +1,3 @@
-import React from 'react';
-
 import FilterbyCategory from './FilterByCategory/FilterbyCategory';
 import SearchBook from './SearchBook/SearchBook';
 import ShowBooks from './ShowBooks/ShowBooks';

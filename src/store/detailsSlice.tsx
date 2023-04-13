@@ -1,16 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { bookDetailsState } from './models';
 
-const initialState = {
-  currentbook: [],
+const initialState: bookDetailsState = {
+  currentbook: null,
   status: 'idle',
-  error: null,
+  error: '',
   message: '',
 };
 
 export const fetchBookDetails = createAsyncThunk(
   'details/fetchBookDetails',
-  async ({ id }, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       const apiKey = 'AIzaSyAQBwSmYFAHONvjiEu1FM4apzhkEMccURo';
 
@@ -20,8 +21,8 @@ export const fetchBookDetails = createAsyncThunk(
         );
         return response.data;
       }
-    } catch (err) {
-      const message = (err.response && err.response.data) || err.message;
+    } catch (error: any) {
+      const message = (error.response && error.response.data) || error.message;
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -35,7 +36,7 @@ const detailsSlice = createSlice({
       state.currentbook = action.payload;
     },
     setReset: state => {
-      state.currentbook = [];
+      state.currentbook = null;
     },
   },
 
@@ -51,9 +52,9 @@ const detailsSlice = createSlice({
 
       .addCase(fetchBookDetails.rejected, (state, action) => {
         state.status = 'failed';
-        state.currentbook = [];
-        state.error = action.payload;
-        state.message = action.payload;
+        state.currentbook = null;
+        state.error = action.payload as string | null;
+        state.message = action.payload as string;
       });
   },
 });
