@@ -43,12 +43,10 @@ function ShowBooks() {
     dispatch(setResetBooks());
   };
 
-  const handleLoad = async() => {
+  const handleLoad = async () => {
     dispatch(setLoadmore());
     dispatch(fetchFilteredBooks());
   };
-
- 
 
   return (
     <div>
@@ -65,7 +63,7 @@ function ShowBooks() {
         <>
           <ThemeProvider theme={theme}>
             <Grid container rowSpacing={4} columnSpacing={2}>
-              {filterResult.map((item) => (
+              {filterResult.map(item => (
                 <Grid
                   item
                   xs={12}

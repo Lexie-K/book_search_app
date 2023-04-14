@@ -19,8 +19,8 @@ const initialState: MainBooksState = {
   sortBy: sorting,
   showFilteredCategory: [],
   status: 'idle',
-  error: '',
-  message: "Can't fetch books",
+  error: null,
+  message: '',
   inputValue: '',
   categoryValue: 'all',
   sortValue: 'relevance',
@@ -45,14 +45,14 @@ export const fetchFilteredBooks = createAsyncThunk<
 
   try {
     const apiKey = 'AIzaSyAQBwSmYFAHONvjiEu1FM4apzhkEMccURo';
-
+    const HOST = 'https://www.googleapis.com/books/v1/volumes';
     if (filter === 'all') {
       filter = '*';
     }
 
     if (search && filter) {
       const response = await axios.get<IBookResponse>(
-        `https://www.googleapis.com/books/v1/volumes?q=intitle:${search}+subject:${filter}&orderBy=${sort}&startIndex=${startPagination}&maxResults=30&&key=${apiKey}`
+        `${HOST}?q=intitle:${search}+subject:${filter}&orderBy=${sort}&startIndex=${startPagination}&maxResults=30&&key=${apiKey}`
       );
 
       return response.data;
@@ -60,14 +60,14 @@ export const fetchFilteredBooks = createAsyncThunk<
 
     if (!search) {
       const response = await axios.get<IBookResponse>(
-        `https://www.googleapis.com/books/v1/volumes?q=subject:${filter}&orderBy=${sort}&startIndex=${startPagination}&maxResults=30&key=${apiKey}`
+        `${HOST}?q=subject:${filter}&orderBy=${sort}&startIndex=${startPagination}&maxResults=30&key=${apiKey}`
       );
 
       return response.data;
     }
 
     const response = await axios.get<IBookResponse>(
-      `https://www.googleapis.com/books/v1/volumes?q=${search}&subject:${filter}&orderBy=${sort}&key=${apiKey}&startIndex=${startPagination}&maxResults=30`
+      `${HOST}?q=${search}&subject:${filter}&orderBy=${sort}&key=${apiKey}&startIndex=${startPagination}&maxResults=30`
     );
 
     return response.data;
@@ -110,7 +110,7 @@ const filterBooksSlice = createSlice({
 
   extraReducers(builder) {
     builder
-      .addCase(fetchFilteredBooks.pending, (state, action) => {
+      .addCase(fetchFilteredBooks.pending, state => {
         state.status = 'loading';
       })
       .addCase(fetchFilteredBooks.fulfilled, (state, action) => {

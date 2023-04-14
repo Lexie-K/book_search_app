@@ -1,8 +1,6 @@
-import React from 'react';
 import { useAppDispatch, useAppSelector } from 'hook';
 import { useNavigate } from 'react-router-dom';
-import { setReset } from 'store/detailsSlice'; 
-
+import { setReset } from 'store/detailsSlice';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -21,7 +19,7 @@ const BookDetails = () => {
       fontSize: 16,
     },
   });
-  const sorry =  require("../../images/sorry.png");
+  const sorry = require('../../images/sorry.png');
   const { currentbook } = useAppSelector(({ details }) => details);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -76,7 +74,11 @@ const BookDetails = () => {
                 {!currentbook?.volumeInfo.authors
                   ? null
                   : currentbook?.volumeInfo.authors.map(author => (
-                      <Typography id="current-author" className="styledAuthors" key="author.author">
+                      <Typography
+                        id="current-author"
+                        className="styledAuthors"
+                        key="author.author"
+                      >
                         {author}
                       </Typography>
                     ))}

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Main from './components/Main';
 import { BrowserRouter } from 'react-router-dom';
 import BookDetails from 'components/BookDetails/BookDetails';
-import PageNotFound from 'components/PageNotFound/PageNotFound';
+import PageNotFound from 'components/PageNotFound';
 
 function App() {
   return (

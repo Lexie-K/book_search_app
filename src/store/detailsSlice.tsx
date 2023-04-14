@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { bookDetailsState } from './models';
+import { BookDetailsState } from './models';
 
-const initialState: bookDetailsState = {
+const initialState: BookDetailsState = {
   currentbook: null,
   status: 'idle',
-  error: '',
+  error: null,
   message: '',
 };
 
@@ -14,11 +14,9 @@ export const fetchBookDetails = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const apiKey = 'AIzaSyAQBwSmYFAHONvjiEu1FM4apzhkEMccURo';
-
+      const HOST = 'https://www.googleapis.com/books/v1/volumes';
       if (id) {
-        const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes/${id}?key=${apiKey}`
-        );
+        const response = await axios.get(`${HOST}/${id}?key=${apiKey}`);
         return response.data;
       }
     } catch (error: any) {
