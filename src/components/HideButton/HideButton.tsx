@@ -1,9 +1,13 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hook';
 
-const HideButton = ({ handleLoad, handleRedirect }) => {
-  const totalItems = useSelector(state => state.filter.totalItems);
-  const showBooks = useSelector(state => state.filter.showBooks);
+interface Props {
+  handleLoad: () => void;
+  handleRedirect: () => void;
+}
+
+const HideButton = ({ handleLoad, handleRedirect }: Props) => {
+  const totalItems = useAppSelector(state => state.filter.totalItems);
+  const showBooks = useAppSelector(state => state.filter.showBooks);
 
   return (
     <div>

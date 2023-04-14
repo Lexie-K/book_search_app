@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from 'hook';
 import {
   Card,
   Grid,
@@ -11,14 +10,12 @@ import {
   ThemeProvider,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import sorry from '../../images/sorry.png';
-import { useDispatch } from 'react-redux';
-import { fetchBookDetails } from '../../store/detailsSlice';
-import { fetchFilteredBooks } from '../../store/filterBooksSlice';
-import { setResetBooks } from '../../store/filterBooksSlice';
+import { fetchBookDetails } from 'store/detailsSlice';
+import { fetchFilteredBooks } from 'store/filterBooksSlice';
+import { setResetBooks } from 'store/filterBooksSlice';
 import './StyledMainLayout.css';
-import { setLoadmore } from '../../store/filterBooksSlice';
-import HideButton from '../HideButton/HideButton';
+import { setLoadmore } from 'store/filterBooksSlice';
+import HideButton from 'components/HideButton/HideButton';
 
 function ShowBooks() {
   const theme = createTheme({
@@ -28,24 +25,26 @@ function ShowBooks() {
     },
   });
 
-  const filterResult = useSelector(state => state.filter.showFilteredCategory);
-  const books = useSelector(state => state.filter.totalItems);
-  const status = useSelector(state => state.filter.status);
-  const startPagination = useSelector(state => state.filter.startPagination);
-  const showBtn = useSelector(state => state.filter.showBtn);
-  const dispatch = useDispatch();
+  const sorry = require('../../images/sorry.png');
+  const filterResult = useAppSelector(
+    state => state.filter.showFilteredCategory
+  );
+  const books = useAppSelector(state => state.filter.totalItems);
+  const status = useAppSelector(state => state.filter.status);
+  const showBtn = useAppSelector(state => state.filter.showBtn);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleOpen = async id => {
-    await dispatch(fetchBookDetails({ id }));
+  const handleOpen = async (id: string) => {
+    await dispatch(fetchBookDetails(id));
     navigate('/detailspage');
   };
   const handleRedirect = () => {
     dispatch(setResetBooks());
   };
 
-  const handleLoad = () => {
-    dispatch(setLoadmore(startPagination));
+  const handleLoad = async () => {
+    dispatch(setLoadmore());
     dispatch(fetchFilteredBooks());
   };
 
@@ -110,7 +109,7 @@ function ShowBooks() {
 
                         <CardContent className="styledContent">
                           <Typography color="text.secondary">
-                            {item.volumeInfo?.categories}
+                            {item.volumeInfo.categories}
                           </Typography>
                           <Typography gutterBottom component="div">
                             {item.volumeInfo.title}

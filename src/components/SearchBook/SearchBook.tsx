@@ -27,9 +27,8 @@ const Searchbook = () => {
       e.preventDefault();
 
       startTransition(() => {
-        dispatch(fetchFilteredBooks());
+        dispatch(fetchFilteredBooks(), setResetInput(e.target.value));
       });
-      dispatch(setResetInput());
     }
   };
 

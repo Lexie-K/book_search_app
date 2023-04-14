@@ -1,21 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { setSort } from '../../store/filterBooksSlice';
-import { fetchFilteredBooks } from '../../store/filterBooksSlice';
+import { useAppSelector, useAppDispatch } from 'hook';
+import { setSort } from 'store/filterBooksSlice';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material';
 
 const SortbyRelevance = () => {
-  const sorting = useSelector(state => state.filter.sortBy);
-  const dispatch = useDispatch();
-  const sortValue = useSelector(state => state.filter.sortValue);
+  const sorting = useAppSelector(state => state.filter.sortBy);
+  const dispatch = useAppDispatch();
+  const sortValue = useAppSelector(state => state.filter.sortValue);
 
-  const changeSorthandler = e => {
+  const changeSorthandler = (e: SelectChangeEvent<string>) => {
     dispatch(setSort(e.target.value));
-    dispatch(fetchFilteredBooks());
   };
 
   return (

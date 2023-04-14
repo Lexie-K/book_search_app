@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { BookDetailsState } from './models';
 
-const initialState = {
-  currentbook: [],
+const initialState: BookDetailsState = {
+  currentbook: null,
   status: 'idle',
   error: null,
   message: '',
@@ -10,18 +11,16 @@ const initialState = {
 
 export const fetchBookDetails = createAsyncThunk(
   'details/fetchBookDetails',
-  async ({ id }, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       const apiKey = 'AIzaSyAQBwSmYFAHONvjiEu1FM4apzhkEMccURo';
-
+      const HOST = 'https://www.googleapis.com/books/v1/volumes';
       if (id) {
-        const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes/${id}?key=${apiKey}`
-        );
+        const response = await axios.get(`${HOST}/${id}?key=${apiKey}`);
         return response.data;
       }
-    } catch (err) {
-      const message = (err.response && err.response.data) || err.message;
+    } catch (error: any) {
+      const message = (error.response && error.response.data) || error.message;
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -35,7 +34,7 @@ const detailsSlice = createSlice({
       state.currentbook = action.payload;
     },
     setReset: state => {
-      state.currentbook = [];
+      state.currentbook = null;
     },
   },
 
@@ -51,9 +50,9 @@ const detailsSlice = createSlice({
 
       .addCase(fetchBookDetails.rejected, (state, action) => {
         state.status = 'failed';
-        state.currentbook = [];
-        state.error = action.payload;
-        state.message = action.payload;
+        state.currentbook = null;
+        state.error = action.payload as string | null;
+        state.message = action.payload as string;
       });
   },
 });
