@@ -19,7 +19,7 @@ const BookDetails = () => {
       fontSize: 16,
     },
   });
-  const sorry = require('../../images/sorry.png');
+  
   const { currentbook } = useAppSelector(({ details }) => details);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -57,7 +57,7 @@ const BookDetails = () => {
                 <CardMedia
                   sx={{ maxWidth: '320px' }}
                   component="img"
-                  src={sorry}
+                  src={process.env.PUBLIC_URL + '/public/imgs/sorry.png'}
                   alt="sorry, no book cover"
                   className="styledCoverImg"
                 />

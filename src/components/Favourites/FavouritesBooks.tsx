@@ -1,25 +1,20 @@
-import { useAppSelector, useAppDispatch } from 'hook';
+import React from 'react';
 import {
-  Card,
+  ThemeProvider,
   Grid,
-  CardContent,
-  CardMedia,
+  Card,
   CardActionArea,
+  CardMedia,
+  CardContent,
   Typography,
   createTheme,
-  ThemeProvider,
 } from '@mui/material';
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import { useAppSelector, useAppDispatch } from 'hook';
 import { useNavigate } from 'react-router-dom';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { fetchBookDetails } from 'store/detailsSlice';
-import { fetchFilteredBooks } from 'store/filterBooksSlice';
-import { setResetBooks } from 'store/filterBooksSlice';
-import './StyledMainLayout.css';
-import { setLoadmore } from 'store/filterBooksSlice';
-import HideButton from 'components/HideButton/HideButton';
-import { addToFavourites } from 'store/favouritesSlice';
-import { IBookItem } from 'store/models';
-function ShowBooks() {
+import { removeFromFavourites } from 'store/favouritesSlice';
+const FavouritesBooks = () => {
   const theme = createTheme({
     typography: {
       fontFamily: 'Montserrat',
@@ -27,12 +22,8 @@ function ShowBooks() {
     },
   });
 
-  const filterResult = useAppSelector(
-    state => state.filter.showFilteredCategory
-  );
-  const books = useAppSelector(state => state.filter.totalItems);
+  const favorites = useAppSelector(state => state.favourites.favouritesBooks);
   const status = useAppSelector(state => state.filter.status);
-  const showBtn = useAppSelector(state => state.filter.showBtn);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -40,25 +31,20 @@ function ShowBooks() {
     await dispatch(fetchBookDetails(id));
     navigate('/detailspage');
   };
-  const handleRedirect = () => {
-    dispatch(setResetBooks());
+
+  const handleRemoveFavorites = (id: string) => {
+    dispatch(removeFromFavourites(id));
   };
 
-  const handleLoad = async () => {
-    dispatch(setLoadmore());
-    dispatch(fetchFilteredBooks());
-  };
+  // const uniqueBooks = new Set(favorites);
 
-
-  const handleFavorites = (item: IBookItem) => {
-    dispatch(addToFavourites(item));  
-  };
-
+  // const uniksBooks = [...uniqueBooks];
+  console.log({ favorites });
   return (
     <div>
-      {books ? (
+      {favorites ? (
         <div className="wrapper">
-          <div className="counter">Found {books} results</div>
+          <div className="counter">Found {favorites.length} results</div>
         </div>
       ) : undefined}
       {status === 'loading' ? (
@@ -69,7 +55,7 @@ function ShowBooks() {
         <>
           <ThemeProvider theme={theme}>
             <Grid container rowSpacing={4} columnSpacing={2}>
-              {filterResult.map(item => (
+              {favorites.map(item => (
                 <Grid
                   item
                   xs={12}
@@ -88,12 +74,14 @@ function ShowBooks() {
                     }}
                   >
                     <CardActionArea>
-                      <div onClick={()=>handleFavorites(item)}><FavoriteTwoToneIcon/></div>
+                      <div onClick={() => handleRemoveFavorites(item.id)}>
+                        <FavoriteTwoToneIcon />
+                      </div>
                       <div onClick={() => handleOpen(item.id)}>
-                        {item.volumeInfo.imageLinks ? (
+                        {item.volumeInfo?.imageLinks ? (
                           <CardMedia
                             component="img"
-                            src={item.volumeInfo.imageLinks.thumbnail}
+                            src={item.volumeInfo?.imageLinks.thumbnail}
                             alt={item.volumeInfo.title}
                             sx={{
                               maxWidth: '320px',
@@ -104,7 +92,9 @@ function ShowBooks() {
                         ) : (
                           <CardMedia
                             component="img"
-                            src={process.env.PUBLIC_URL + '/public/imgs/sorry.png'}
+                            src={
+                              process.env.PUBLIC_URL + '/public/imgs/sorry.png'
+                            }
                             alt="sorry, no book cover"
                             sx={{
                               maxWidth: '320px',
@@ -116,33 +106,26 @@ function ShowBooks() {
 
                         <CardContent className="styledContent">
                           <Typography color="text.secondary">
-                            {item.volumeInfo.categories}
+                            {item.volumeInfo?.categories}
                           </Typography>
                           <Typography gutterBottom component="div">
-                            {item.volumeInfo.title}
+                            {item.volumeInfo?.title}
                           </Typography>
                           <Typography color="text.secondary">
-                            {item.volumeInfo.authors}
+                            {item.volumeInfo?.authors}
                           </Typography>
                         </CardContent>
                       </div>
-                     
                     </CardActionArea>
                   </Card>
                 </Grid>
               ))}
             </Grid>
           </ThemeProvider>
-          {showBtn && (
-            <HideButton
-              handleLoad={handleLoad}
-              handleRedirect={handleRedirect}
-            />
-          )}
         </>
       )}
     </div>
   );
-}
+};
 
-export default ShowBooks;
+export default FavouritesBooks;

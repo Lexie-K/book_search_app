@@ -18,7 +18,7 @@ const SortbyRelevance = () => {
   return (
     <>
       <div className="styledCategoryForm">
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <FormControl sx={{ m: 1, minWidth: 120,  }} size="small">
           <InputLabel id="select-category">Sort by</InputLabel>
           <Select
             labelId="demo-simple-select-helper-label"

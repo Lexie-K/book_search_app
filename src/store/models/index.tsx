@@ -18,6 +18,18 @@ export interface MainBooksState {
   payload?: IBookResponse;
 }
 
+export interface IUser {
+  email: string;
+  password: string;
+  token: string;
+  id: string;
+}
+
+export interface FavoritesBooks {
+  favouritesBooks: IBookItem[];
+  items: string[];
+}
+
 export interface BookDetailsState {
   currentbook: IBookItem | null;
   status: 'idle' | 'loading' | 'failed' | 'succeeded';

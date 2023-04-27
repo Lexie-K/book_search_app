@@ -1,0 +1,12 @@
+.styledForm {
+  padding: 1.5rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: .5rem;
+}
+.styledFormSize {
+  max-width: 320px;
+}

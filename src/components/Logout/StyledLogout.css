@@ -1,0 +1,12 @@
+.styledLogoutBtn {
+  margin: 1rem;
+  margin-left: auto;  
+  display: flex;
+  flex-direction: column;  
+  
+}
+
+.styledLogOut {
+  white-space: nowrap;
+}
+

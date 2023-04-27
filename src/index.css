@@ -6,19 +6,42 @@
 }
 
 body {
-  background: url('./images/bkground.png');
-  background-size: 30%;
+  
   margin: 0;
   font-family: 'Montserrat';
+ 
+  
+
 }
+
+.styledMainContainer {
+  display: flex;
+  justify-content: center; 
+  margin: 1rem;  
+  
+}
+
+@media (max-width: 320px) {
+  .styledMainContainer {
+    display: flex;
+    flex-direction: column-reverse;     
+    justify-content: center; 
+  }  
+}  
 
 .styledContainer {
   display: flex;
   justify-content: space-evenly;
-  margin: 1rem;
+  margin: 1rem;  
 }
 
 .styledCategoryForm {
   background-color: white;
   border-radius: 0.5rem;
 }
+
+.styledSearchPosition {
+  margin-left: auto; 
+}
+
+
